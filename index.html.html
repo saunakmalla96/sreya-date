@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Sreya — One Little Question</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:linear-gradient(135deg,#fff4f7,#f7f1ff);color:#392d36;min-height:100vh;display:grid;place-items:center;padding:20px}.card{width:min(680px,100%);background:#fffdfd;border:1px solid #efdde4;border-radius:30px;padding:42px 28px;box-shadow:0 20px 60px #5b304018;text-align:center}.berry{font-size:48px}.eyebrow{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#9b6c7f;font-weight:800;margin-top:8px}h1{font-family:Georgia,serif;font-size:clamp(40px,9vw,64px);margin:8px 0;color:#4b3040}.question{font-size:20px;line-height:1.5;margin:18px auto;max-width:500px}.drink{display:inline-block;margin:8px 0 24px;padding:12px 18px;border-radius:999px;background:#fff0f4;color:#853f5b;font-weight:750}.actions{position:relative;min-height:95px;display:flex;justify-content:center;align-items:center;gap:14px}button{border:0;border-radius:999px;padding:14px 25px;font-size:16px;font-weight:750;cursor:pointer;min-height:48px}#yes{background:#7d3f5e;color:#fff;box-shadow:0 8px 20px #7d3f5e30}#no{background:#fff;color:#695763;border:1px solid #e5d6dc;transition:transform .24s ease,scale .24s ease,opacity .24s ease,font-size .24s ease}#tease{min-height:25px;color:#9b6c7f;font-size:14px}.hidden{display:none}.plan{margin-top:26px;text-align:left;padding-top:24px;border-top:1px solid #f0dce3}.plan h2{text-align:center;font-family:Georgia,serif;font-size:30px;margin:0 0 8px}.plan p{text-align:center;color:#765e6b}label{display:block;font-size:14px;font-weight:750;margin:16px 0 7px}input{width:100%;padding:14px;border:1px solid #dfcbd4;border-radius:13px;font:inherit;background:#fff}.submit{width:100%;margin-top:20px;background:#7d3f5e;color:#fff}.status{margin-top:18px;text-align:center;font-weight:700;color:#7d3f5e;line-height:1.6}.small{font-size:12px;color:#a18d97;margin-top:22px}@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<main class="card">
+<div class="berry">🍓</div>
+<div class="eyebrow">A very important question</div>
+<h1>Sreya Shah</h1>
+<p class="question">I have a tiny proposal...<br><strong>Would you go on a little date with me?</strong></p>
+<div class="drink">🍵 Strawberry Matcha + good company</div>
+<div class="actions" id="actions">
+<button id="yes" type="button">Yes 💕</button>
+<button id="no" type="button">No</button>
+</div>
+<div id="tease" aria-live="polite"></div>
+
+<section id="plan" class="plan hidden">
+<h2>I knew you'd say yes 😌</h2>
+<p>Okay, now let's make it official.</p>
+<form id="dateForm">
+<label for="date">Which day?</label>
+<input id="date" type="date" required>
+<label for="time">What time?</label>
+<input id="time" type="time" required>
+<button class="submit" type="submit">Make it a date 🍓</button>
+</form>
+<div id="status" class="status" aria-live="polite"></div>
+</section>
+<div class="small">Made with questionable levels of confidence. 😌</div>
+</main>
+<script>
+const SUBMIT_URL="https://script.google.com/macros/s/AKfycbzH_sBHq9tHg1NZf3iuD5-hM0dePme20S34I1OibpsAKc_V-4_hqbSKUulfF90EJyAI/exec";
+const no=document.getElementById("no"),yes=document.getElementById("yes"),tease=document.getElementById("tease"),actions=document.getElementById("actions"),plan=document.getElementById("plan"),form=document.getElementById("dateForm"),status=document.getElementById("status");
+const messages=["Sure? 😏","Wait...","Think again 👀","Last chance...","Nice try 😂"];let attempts=0;
+function playNo(){attempts++;const i=Math.min(attempts,messages.length);no.textContent=messages[i-1];const s=Math.max(.48,1-attempts*.10),dir=attempts%2?1:-1;no.style.transform=`translate(${dir*(25+attempts*14)}px,${attempts%2?-8:8}px) scale(${s})`;no.style.fontSize=Math.max(11,16-attempts)+"px";tease.textContent=attempts<messages.length?"Hmm... that button seems unusually determined. 😌":"Okay okay, I surrender. You can actually say no. 😂";if(attempts===messages.length)no.style.opacity=".72"}
+no.addEventListener("mouseenter",playNo);no.addEventListener("click",playNo);
+yes.addEventListener("click",()=>{actions.classList.add("hidden");tease.textContent="Excellent decision. 🍓🍵";plan.classList.remove("hidden");plan.scrollIntoView({behavior:"smooth",block:"center"});});
+form.addEventListener("submit",async e=>{e.preventDefault();const date=document.getElementById("date").value,time=document.getElementById("time").value;if(!date||!time)return;
+if(SUBMIT_URL.startsWith("PASTE_")){status.textContent="The date is chosen 💕 (connect the response link before sending this to Sreya.)";return}
+status.textContent="Saving your choice... 💕";
+try{await fetch(SUBMIT_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({name:"Sreya Shah",date,time})});status.innerHTML="It's a date. 💕<br>"+date+" at "+time+"<br><br>Strawberry Matcha awaits. 🍓🍵";form.querySelector("button").disabled=true}
+catch(err){status.textContent="Something went wrong. Please try submitting once more.";}}
+);
+</script>
+</body>
+</html>
