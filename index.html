@@ -170,7 +170,7 @@ function moveNo(){
   const y=attempts%2?-8:8;
   no.style.transform=`translate(${x}px,${y}px) scale(${scale})`;
   no.style.fontSize=Math.max(11,16-attempts)+"px";
-  tease.textContent=attempts<messages.length?"Hmm... that button is getting suspiciously difficult to press. 😌":"Okay, okay... I get the message. 😂";
+  tease.textContent=attempts<messages.length?"Hmm... that button is getting suspiciously difficult to press. 😌":"Okay okay, I surrender. You can actually say no. 😂";
 }
 no.addEventListener("mouseenter",moveNo);
 no.addEventListener("click",moveNo);
